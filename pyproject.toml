@@ -1,0 +1,51 @@
+[project]
+authors = [{name = "王逸伟1", email = "1206182848@qq.com"}]
+dependencies = ["json-repair>=0.53.0,<0.54"]
+name = "CETC_product"
+requires-python = ">= 3.11, <3.14"
+version = "0.1.0"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.feature.ds.dependencies]
+ipykernel = "*"
+
+
+[tool.pixi.pypi-dependencies]
+cetc_product = { path = ".", editable = true }
+
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+
+
+ds = { features = ["ds"], solve-group = "default" }
+
+
+[tool.pixi.tasks]
+task1_zh_test = "python -m cetc_product.main -t task1 -s zhwiki --test -llm doubao_flash"
+task1_zh = "python -m cetc_product.main -t task1 -s zhwiki"
+task1_en_test = "python -m cetc_product.main -t task1 -s enwiki --test -llm doubao_flash"
+task1_en = "python -m cetc_product.main -t task1 -s enwiki"
+
+task2_zh_test = "python -m cetc_product.main -t task2 -s zhwiki --test -llm doubao_flash"
+task2_zh = "python -m cetc_product.main -t task2 -s zhwiki"
+
+task2_en = "python -m cetc_product.main -t task2 -s enwiki"
+
+[tool.pixi.dependencies]
+orjson = ">=3.11.4,<4"
+pydantic = ">=2.12.4,<3"
+langchain = ">=0.3.17,<0.4"
+langchain-openai = ">=0.3.19,<0.4"
+orjsonl = ">=1.0.0,<2"
+loguru = ">=0.7.3,<0.8"
+python = "==3.13"
+xopen = ">=2.0.2,<3"
+pyyaml = ">=6.0.3,<7"

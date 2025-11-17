@@ -1,0 +1,27 @@
+2025-11-17 10:17:34 | INFO     | cetc_product.tools.log_config:setup:99 - 日志目录(按日期分区): /Data_two/wyw/code/CETC_product/logs/2025-11-17
+2025-11-17 10:17:34 | SUCCESS  | cetc_product.tools.log_config:setup:104 - 日志系统初始化完成
+2025-11-17 10:17:34 | SUCCESS  | cetc_product.core.pipeline:__init__:37 - Pipeline 初始化完成
+2025-11-17 10:17:34 | INFO     | cetc_product.core.pipeline:bind:40 - 绑定任务: 人物信息抽取
+2025-11-17 10:17:34 | DEBUG    | cetc_product.core.pipeline:_task_params_parse:85 - 任务 <人物信息抽取> 参数解析完成
+2025-11-17 10:17:34 | INFO     | cetc_product.core.pipeline:_task_params_parse:86 - 任务参数:
+{
+  "read_batch_size": 80,
+  "llm_name": "doubao_thinking",
+  "inpath": "/mnt/samba_shared/wyw/code/\u4e2d\u7535\u79d1_\u5206\u7c7b/data/domain_and_region/zhwiki/1/*.jsonl.zst",
+  "outpath": "/Data_two/wyw/code/CETC_product/data/out/task2/zhwiki",
+  "prompt_path": "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_person.txt"
+}
+2025-11-17 10:17:34 | DEBUG    | cetc_product.core.pipeline:_init_task2:140 - 输入路径: /mnt/samba_shared/wyw/code/中电科_分类/data/domain_and_region/zhwiki/1/*.jsonl.zst
+2025-11-17 10:17:34 | DEBUG    | cetc_product.core.pipeline:_init_task2:141 - 输出路径: /Data_two/wyw/code/CETC_product/data/out/task2/zhwiki/20251117_101734
+2025-11-17 10:17:34 | DEBUG    | cetc_product.core.pipeline:_init_task2:151 - LLM: doubao_thinking
+2025-11-17 10:17:34 | DEBUG    | cetc_product.core.pipeline:_init_task2:152 - Prompt: /Data_two/wyw/code/CETC_product/data/prompts/NER_for_person.txt
+2025-11-17 10:17:35 | INFO     | cetc_product.core.pipeline:_init_task2:156 - 任务2初始化完成
+2025-11-17 10:17:35 | SUCCESS  | cetc_product.core.pipeline:bind:52 - 任务 人物信息抽取 初始化成功
+2025-11-17 10:17:35 | INFO     | cetc_product.core.pipeline:run:163 - ============================================================
+2025-11-17 10:17:35 | INFO     | cetc_product.core.pipeline:run:164 - 正式运行任务: 人物信息抽取
+2025-11-17 10:17:35 | INFO     | cetc_product.core.pipeline:run:165 - ============================================================
+2025-11-17 10:17:35 | INFO     | cetc_product.core.pipeline:run:170 - 输出文件: /Data_two/wyw/code/CETC_product/data/out/task2/zhwiki/20251117_101734
+2025-11-17 10:17:35 | INFO     | cetc_product.tools.IO_tool:count_json_lines_parallel:51 - 使用 5 个进程统计 5 个文件的行数
+2025-11-17 10:17:39 | SUCCESS  | cetc_product.tools.IO_tool:count_json_lines_parallel:73 - 统计完成,共 50,769 行
+2025-11-17 10:17:39 | INFO     | cetc_product.tools.IO_tool:read_data:111 - 找到 5 个文件
+2025-11-17 10:17:39 | INFO     | cetc_product.tools.IO_tool:read_data:113 - [1/5] 处理文件: /mnt/samba_shared/wyw/code/中电科_分类/data/domain_and_region/zhwiki/1/0.jsonl.zst

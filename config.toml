@@ -1,0 +1,29 @@
+[task1.zhwiki]
+
+inpath = "/mnt/samba_shared/wyw/code/中电科_分类/data/domain_and_region/zhwiki/1/*.jsonl.zst"
+read_batch_size = 80
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_thinking"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_org.txt"
+
+[task1.enwiki]
+inpath = "/mnt/samba_shared/wyw/code/中电科_分类/data/domain_and_region/enwiki/1/*.jsonl.zst"
+read_batch_size = 80
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_thinking"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_org.txt"
+
+[task2.zhwiki]
+inpath = "/mnt/samba_shared/wyw/code/中电科_分类/data/domain_and_region/zhwiki/1/*.jsonl.zst"
+read_batch_size = 80
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_thinking"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_person.txt"
+
+
+[task2.enwiki]
+inpath = "/mnt/samba_shared/wyw/code/中电科_分类/data/domain_and_region/enwiki/1/*.jsonl.zst"
+read_batch_size = 80
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_thinking"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_person.txt"

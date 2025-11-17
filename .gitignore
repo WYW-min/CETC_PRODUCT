@@ -1,0 +1,4 @@
+# pixi environments
+.pixi/*
+data/out/*
+!.pixi/config.toml
