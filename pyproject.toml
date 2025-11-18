@@ -37,6 +37,7 @@ task1_en = "python -m cetc_product.main -t task1 -s enwiki"
 task2_zh_test = "python -m cetc_product.main -t task2 -s zhwiki --test -llm doubao_flash"
 task2_zh = "python -m cetc_product.main -t task2 -s zhwiki"
 
+task2_en_test = "python -m cetc_product.main -t task2 -s enwiki --test -llm doubao_flash"
 task2_en = "python -m cetc_product.main -t task2 -s enwiki"
 
 [tool.pixi.dependencies]

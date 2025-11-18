@@ -77,6 +77,7 @@ def count_json_lines_parallel(
         logger.exception(f"并行统计失败,回退到单进程: {e}")
         return sum(count_json_line(path, filter_func) for path in inpaths)
 
+# 添加一个checkpoint组件
 def read_data_batched(inpaths, n = 2, filter_func = lambda x: bool(x))->Generator:
     total = count_json_lines_parallel(inpaths, filter_func)
     

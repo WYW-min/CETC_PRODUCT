@@ -5,7 +5,7 @@ def safe_get(d: dict, keys: list, default=None):
     """Safely get a nested value from a dictionary."""
     for key in keys:
         if isinstance(d, dict) and key in d:
-            d = d[key]
+            d = d.get(key, default)
         else:
             return default
     return d

@@ -2,10 +2,14 @@
 
 
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Generator, List, Tuple
 
 from loguru import logger
 import orjson
+from cetc_product.tools.func_tools import Funcs
+import xopen
+import orjsonl
+
 from cetc_product.data_model.NER_for_org import OrganizationInfo
 from cetc_product.data_model.params import ChainParams, IoParams
 from langchain_core.runnables import Runnable
@@ -14,9 +18,10 @@ from cetc_product.data_model.task_type import TaskTypeEnum
 from cetc_product.tools.IO_tool import read_data_batched
 from cetc_product.protocol.implement.task1 import Task1
 from cetc_product.tools.log_config import setup_logger
-from cetc_product.tools.tiny_tool import pretty_dict
+from cetc_product.tools.tiny_tool import pretty_dict, safe_get
 from cetc_product.protocol.implement.task2 import Task2
 from cetc_product.data_model.NER_for_person import PersonInfo
+from cetc_product.tools.file_checkpoint import FileCheckpoint
 class Pipeline:
     
     
@@ -36,13 +41,16 @@ class Pipeline:
         }
         logger.success("Pipeline 初始化完成")
         
-    def bind(self, task_type:TaskTypeEnum, task_params:Dict[str, str]):
+    def bind(self, task_type:TaskTypeEnum, task_params:Dict[str, str]):     # 在这里进行checkpoint组件的初始化
         logger.info(f"绑定任务: {task_type.value}")
         
         self.cur_task = task_type
         self.cur_task_params = task_params
-        
         init_func = self.init_func_map.get(task_type, None)
+        
+        # 在这里进行checkpoint组件的初始化
+        
+        
         if init_func is None:
             logger.error(f"不支持的任务类型: {task_type}")
             raise ValueError(f"不支持的任务: {task_type}")
@@ -86,17 +94,51 @@ class Pipeline:
         logger.info(f"任务参数:\n{pretty_dict(_actual_params)}")
         
         return _actual_params
+    def _init_checkpoint(self, task_params: Dict[str, Any]):
+        """统一的 checkpoint 初始化逻辑"""
+        checkpoint_path = task_params.get("checkpoint_path")
         
+        if checkpoint_path is None:
+            logger.warning("未配置 checkpoint_path，跳过断点续传功能")
+            self.checkpoint = None
+            return
+        
+        # ✅ 实现读取历史数据的函数
+        def read_writed_data(path: Path) -> List[Dict]:
+            records = []
+            with xopen.xopen(path, "r") as fin:
+                for line in fin:
+                    try:
+                        records.append(orjson.loads(line))
+                    except Exception as e:
+                        logger.debug(f"解析行失败: {e}")
+                        continue
+            logger.debug(f"从 {path} 读取了 {len(records)} 条记录")
+            return records
+            
+        
+        self.checkpoint = FileCheckpoint(
+            file_path=checkpoint_path,
+            writed_data_paths=task_params.get("writed_data_paths"),
+            read_writed_data_func=read_writed_data,
+            backfill_get_id=Funcs.simple_dict_getid,
+            backfill_is_good=Funcs.simple_dict_good  # ✅ 传入真实的读取函数
+        )
+        logger.info(f"Checkpoint 组件初始化完成: {checkpoint_path}")
     def _init_task1(self, task_params:Dict[str,Any]):
         # 扫描参数
         require_params = {"inpath", "outpath", "prompt_path"}
         optional_params = {
             "read_batch_size": 2,
-            "llm_name" : "doubao_flash"
+            "llm_name" : "doubao_flash",
+            "checkpoint_path": None,
+            "writed_data_paths" : None
         }
         task_params = self._task_params_parse(task_params, require_params, optional_params)
         # 记录参数
         
+        
+        self._init_checkpoint(task_params)
         
         self.cur_params["io_params"] = IoParams(
             inpath = task_params["inpath"], 
@@ -129,7 +171,7 @@ class Pipeline:
             "llm_name" : "doubao_flash"
         }
         task_params = self._task_params_parse(task_params, require_params, optional_params)
-        # 记录参数
+        self._init_checkpoint(task_params)
         
         
         self.cur_params["io_params"] = IoParams(
@@ -169,19 +211,69 @@ class Pipeline:
         outpath.parent.mkdir(parents=True, exist_ok=True)
         logger.info(f"输出文件: {outpath}")
         
-        with open(outpath, "wb") as fout:
-            for inpath_list, indata_list in read_data_batched(
-                self.cur_params["io_params"].inpaths, 
-                n =self.cur_params["io_params"].read_batch_size,
-                filter_func=self.task.get_serializable_validator()
-                ):
-                task_response = self.task.run(indata_list, ChainRunModeEnum.ABATCH)
-                fout.write(b"\n".join([orjson.dumps(r) for r in task_response]))
-                if test:
-                    print(task_response[0])
-                    break
+        
+        read_buffer = []
+        read_batch_size = self.cur_params["io_params"].read_batch_size
+        
+        
+        
+        try:
+            with open(outpath, "wb") as fout:
+                checkpoint_log = {"total_processed": 0, "total_skipped": 0}
+                for inpath_list, indata_list in read_data_batched(
+                    self.cur_params["io_params"].inpaths, 
+                    n =read_batch_size,
+                    filter_func=self.task.get_serializable_validator()
+                    ):
+                    
 
-                
+                    # 使用checkpoint组件过滤数据并添加到缓冲区
+                    if self.checkpoint:
+                        filtered_data, skipped = self.checkpoint.filter(
+                            indata_list,
+                            get_id=Funcs.wiki_dict_getid
+                        )
+                        checkpoint_log["total_skipped"] += skipped
+                        read_buffer.extend(filtered_data)
+                    else:
+                        read_buffer.extend(indata_list)
+                        
+                        
+                    task_response, read_buffer = self._task_submit(read_buffer, 
+                                                                   read_batch_size if not self.test else len(read_buffer), 
+                                                                   fout)
+                    
+                    if self.checkpoint and task_response:
+                        marked, failed = self.checkpoint.update(
+                            outpath,
+                            task_response,
+                            is_good=Funcs.simple_dict_good,
+                            get_id=Funcs.simple_dict_getid
+                        )
+
+                        checkpoint_log["total_processed"] += marked
+                        
+                        logger.info(f"本批成功: {marked} / {checkpoint_log['total_processed']} 条, 跳过: {failed} / {checkpoint_log['total_skipped']} 条")
+                    if test:
+                        logger.info(task_response[0])
+                        break
+                    
+                    
+                else:
+                    self._task_submit(read_buffer, 1, fout)
+        finally:
+            # ✅ 确保最终保存
+            if self.checkpoint:
+                self.checkpoint.save()
+                logger.success(f"Checkpoint 已保存: {self.checkpoint.file_path}")
+
+    def _task_submit(self, buffer, in_size, fout)->Tuple[List[Any], List[Any]]:
+        if len(buffer) < in_size:
+            return [], buffer
+        task_response = self.task.run(buffer[:in_size], ChainRunModeEnum.ABATCH)
+        if fout:
+            fout.write(b"\n".join([orjson.dumps(r) for r in task_response]))
+        return task_response, buffer[in_size:]
             
 if __name__ == "__main__":
     ...

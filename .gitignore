@@ -1,5 +1,6 @@
 # pixi environments
 .pixi/*
 data/out/*
+data/checkpoints/*
 logs/*
 !.pixi/config.toml

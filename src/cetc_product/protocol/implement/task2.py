@@ -11,6 +11,7 @@ from cetc_product.data_model.run_mode import ChainRunModeEnum
 from cetc_product.data_model.task_type import TaskTypeEnum
 from cetc_product.protocol.base import BaseLangChainTask
 from cetc_product.tools.tiny_tool import safe_get
+from cetc_product.tools.func_tools import Funcs
 
 
 # 模块级函数 - 天然可序列化
@@ -91,6 +92,6 @@ class Task2(BaseLangChainTask):
     def get_output(self,input_data:Any, result: Any) -> Any:
         """子类必须实现：处理输出"""
         return {
-            "id" : (input_data["page_id"], input_data["title"]),
+            "id" : Funcs.wiki_dict_getid(input_data),
             "out" : result
         }

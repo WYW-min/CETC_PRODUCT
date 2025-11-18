@@ -32,6 +32,13 @@ class ConfigLoader:
         
         if "outpath" in enhanced_config:
             enhanced_config["outpath"] = str(Path(enhanced_config["outpath"]) / task_key[0] / task_key[1])
+            
+        if "checkpoint_path" in enhanced_config:
+            enhanced_config["checkpoint_path"] = str(Path(enhanced_config["checkpoint_path"]) / task_key[0] / task_key[1])
+            
+        if isinstance(enhanced_config.get("writed_data_paths"), str):
+            glob_path = enhanced_config["writed_data_paths"]
+            enhanced_config["writed_data_paths"] = sorted(list(Path(glob_path).parent.glob(Path(glob_path).name)))
         return enhanced_config  
     
     def get_task_config(self, task: str, source: str) -> Dict[str, Any]:

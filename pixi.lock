@@ -455,7 +455,7 @@ packages:
 - pypi: ./
   name: cetc-product
   version: 0.1.0
-  sha256: 00e8ec81ef54f2469879968037a1fdcc88d996d0a094487ab510e0304be103ee
+  sha256: f9858e9ff4b23fcc9a6f932e2d6e5a27760551e1a84a74cbb39fefe0a1f21576
   requires_dist:
   - json-repair>=0.53.0,<0.54
   requires_python: '>=3.11,<3.14'

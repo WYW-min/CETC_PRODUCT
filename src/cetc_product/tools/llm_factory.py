@@ -55,25 +55,36 @@ class LlmFactory:
                 "api_key": os.getenv("OPENAI_APIKEY_FS"),
                 "reasoning_effort": "low"
             },
-            "qwen_stream": {
+            "qwen_max": {
                 "model": "qwen3-max-preview",
                 "model_provider": "openai",
                 "temperature": 0,
                 "base_url": os.getenv("QWEN_BASEURL"),
-                "api_key": os.getenv("QWEN_APIKEY"),
+                "api_key": os.getenv("QWEN_APIKEY_FS"),
                 "extra_body": {"enable_thinking": True},
                 "stream": True,
             },
-            "qwen": {
-                "model": "qwen3-max",
+            "qwen_plus": {
+                "model": "qwen-plus",
                 "model_provider": "openai",
                 "temperature": 0,
                 "base_url": os.getenv("QWEN_BASEURL"),
-                "api_key": os.getenv("QWEN_APIKEY"),
-                "response_format": {
-                    "type": "json_object"
-                },
+                "api_key": os.getenv("QWEN_APIKEY_FS"),
+                "extra_body": {"enable_thinking": True},
+                "stream": True,
+                
+            },
+            "qwen_flash": {
+                "model": "qwen-flash",
+                "model_provider": "openai",
+                "temperature": 0,
+                "base_url": os.getenv("QWEN_BASEURL"),
+                "api_key": os.getenv("QWEN_APIKEY_FS"),
+                "extra_body": {"enable_thinking": True},
+                "stream": True,
+                
             }
+            
         }
     
     def __getitem__(self, model_name: str):
