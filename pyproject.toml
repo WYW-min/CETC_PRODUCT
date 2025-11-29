@@ -1,6 +1,27 @@
+[tool.pixi.tasks]
+ln_log = "bash ./scripts/ln_log.bash"
+
+
+task1_zh_test = "python -m cetc_product.main -t task1 -s zhwiki --test -llm doubao_flash"
+task1_zh = "python -m cetc_product.main -t task1 -s zhwiki"
+task1_en_test = "python -m cetc_product.main -t task1 -s enwiki --test -llm doubao_flash"
+task1_en = "python -m cetc_product.main -t task1 -s enwiki"
+task2_zh_test = "python -m cetc_product.main -t task2 -s zhwiki --test -llm doubao_flash"
+task2_zh1 = "python -m cetc_product.main -t task2 -s zhwiki1"
+task2_zh2 = "python -m cetc_product.main -t task2 -s zhwiki2"
+task2_en_test = "python -m cetc_product.main -t task2 -s enwiki --test -llm doubao_flash"
+task2_en1 = "python -m cetc_product.main -t task2 -s enwiki1"
+task2_en2 = "python -m cetc_product.main -t task2 -s enwiki2"
+task2_en3 = "python -m cetc_product.main -t task2 -s enwiki3"
+
+task1_zh_with_log = "pixi run task1_zh & sleep 2 && pixi run ln_log &"
+task1_en_with_log = "pixi run task1_en & sleep 2 && pixi run ln_log &"
+task2_zh_with_log = "pixi run task2_zh & sleep 2 && pixi run ln_log &"
+task2_en_with_log = "pixi run task2_en & sleep 2 && pixi run ln_log &"
+
 [project]
 authors = [{name = "王逸伟1", email = "1206182848@qq.com"}]
-dependencies = ["json-repair>=0.53.0,<0.54"]
+dependencies = ["json-repair>=0.53.0,<0.54", "alive-progress>=3.3.0,<4", "langchain-community>=0.3.16,<0.4"]
 name = "CETC_product"
 requires-python = ">= 3.11, <3.14"
 version = "0.1.0"
@@ -9,13 +30,16 @@ version = "0.1.0"
 build-backend = "hatchling.build"
 requires = ["hatchling"]
 
+[dependency-groups]
+ds = ["pandas>=2.3.3,<3", "sqlalchemy", "pymysql>=1.1.2,<2", "psycopg[binary]>=3.2.13,<4"]
+
 [tool.pixi.workspace]
 channels = ["conda-forge"]
 platforms = ["linux-64"]
 
 [tool.pixi.feature.ds.dependencies]
 ipykernel = "*"
-
+ipython = "*"
 
 [tool.pixi.pypi-dependencies]
 cetc_product = { path = ".", editable = true }
@@ -28,17 +52,7 @@ default = { solve-group = "default" }
 ds = { features = ["ds"], solve-group = "default" }
 
 
-[tool.pixi.tasks]
-task1_zh_test = "python -m cetc_product.main -t task1 -s zhwiki --test -llm doubao_flash"
-task1_zh = "python -m cetc_product.main -t task1 -s zhwiki"
-task1_en_test = "python -m cetc_product.main -t task1 -s enwiki --test -llm doubao_flash"
-task1_en = "python -m cetc_product.main -t task1 -s enwiki"
 
-task2_zh_test = "python -m cetc_product.main -t task2 -s zhwiki --test -llm doubao_flash"
-task2_zh = "python -m cetc_product.main -t task2 -s zhwiki"
-
-task2_en_test = "python -m cetc_product.main -t task2 -s enwiki --test -llm doubao_flash"
-task2_en = "python -m cetc_product.main -t task2 -s enwiki"
 
 [tool.pixi.dependencies]
 orjson = ">=3.11.4,<4"
@@ -50,3 +64,6 @@ loguru = ">=0.7.3,<0.8"
 python = "==3.13"
 xopen = ">=2.0.2,<3"
 pyyaml = ">=6.0.3,<7"
+rich = ">=14.2.0,<15"
+jsonlines = ">=4.0.0,<5"
+wcmatch = ">=10.1,<11"

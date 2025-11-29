@@ -1,37 +1,84 @@
 [task1.zhwiki]
 
 inpath = "/mnt/samba_shared/wyw/code/中电科_分类/data/domain_and_region/zhwiki/1/*.jsonl.zst"
-read_batch_size = 80
+read_batch_size = 200
 outpath = "/Data_two/wyw/code/CETC_product/data/out"
-llm_name = "doubao_thinking"
+llm_name = "qwen_flash"
 prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_org.txt"
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = "/Data_two/wyw/data/CETC_PRODUCT/task1/zhwiki_*"
+
 
 [task1.enwiki]
 inpath = "/Data_two/wyw/data/CETC_PRODUCT/raw/enwiki/*.jsonl.zst"
-read_batch_size = 80
+read_batch_size = 300
 outpath = "/Data_two/wyw/code/CETC_product/data/out"
-llm_name = "doubao_thinking"
+llm_name = "gpt_low"
 prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_org.txt"
 checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
-writed_data_paths = [
-    "/Data_two/wyw/code/CETC_product/data/out/task1/enwiki/20251117_000108"
-]
+writed_data_paths = "/Data_two/wyw/code/CETC_product/data/out/task1/enwiki/*"
 
-[task2.zhwiki]
-inpath = "/mnt/samba_shared/wyw/code/中电科_分类/data/domain_and_region/zhwiki/1/*.jsonl.zst"
-read_batch_size = 80
+[task2.zhwiki1]
+inpath = "/mnt/samba_shared/wyw/code/中电科_分类/data/domain_and_region/zhwiki/1/[0-2].jsonl.zst"
+read_batch_size = 700
 outpath = "/Data_two/wyw/code/CETC_product/data/out"
-llm_name = "doubao_thinking"
-prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_person.txt"
+llm_name = "doubao_flash"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_wiki_person.txt"
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = ["/Data_two/wyw/code/CETC_product/data/out/task2/zhwiki/*", "/Data_two/wyw/code/CETC_product/data/out/task2/zhwiki1/*"]
 
-
-[task2.enwiki]
-inpath = "/Data_two/wyw/data/CETC_PRODUCT/raw/enwiki/0.jsonl.zst"
-read_batch_size = 160
+[task2.zhwiki2]
+inpath = "/mnt/samba_shared/wyw/code/中电科_分类/data/domain_and_region/zhwiki/1/[3-4].jsonl.zst"
+read_batch_size = 700
 outpath = "/Data_two/wyw/code/CETC_product/data/out"
-llm_name = "qwen_plus"
-prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_person.txt"
+llm_name = "doubao_lite_low"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_wiki_person.txt"
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = ["/Data_two/wyw/code/CETC_product/data/out/task2/zhwiki/*", "/Data_two/wyw/code/CETC_product/data/out/task2/zhwiki2/*"]
+
+[task2.enwiki1]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/raw/enwiki/{0..8}.jsonl.zst"
+read_batch_size = 800
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "gpt_low"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_wiki_person.txt"
 checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
 writed_data_paths = [
-    "/Data_two/wyw/code/CETC_product/data/out/task2/enwiki/20251117_151015"
-]
+    "/Data_two/wyw/code/CETC_product/data/out/task2/enwiki/*",
+    "/Data_two/wyw/code/CETC_product/data/out/task2/enwiki1/*"
+    ]
+
+
+[task2.enwiki2]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/raw/enwiki/{9..18}.jsonl.zst"
+read_batch_size = 600
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_flash_auth"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_wiki_person.txt"
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = [
+    "/Data_two/wyw/code/CETC_product/data/out/task2/enwiki/*",
+    "/Data_two/wyw/code/CETC_product/data/out/task2/enwiki2/*"
+    ]
+
+
+[task2.enwiki3]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/raw/enwiki/{18..26}.jsonl.zst"
+read_batch_size = 600
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_lite_low_auth"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_wiki_person.txt"
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = [
+    "/Data_two/wyw/code/CETC_product/data/out/task2/enwiki/*",
+    "/Data_two/wyw/code/CETC_product/data/out/task2/enwiki3/*"
+    ]
+
+
+[domain_enhance.task1]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/raw/enwiki/task1.jsonl"
+read_batch_size = 2000
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_lite_low_auth"
+prompt_path = "/Data_two/wyw/data/CETC_PRODUCT/enhance/task1.jsonl"
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
