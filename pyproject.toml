@@ -13,15 +13,35 @@ task2_en_test = "python -m cetc_product.main -t task2 -s enwiki --test -llm doub
 task2_en1 = "python -m cetc_product.main -t task2 -s enwiki1"
 task2_en2 = "python -m cetc_product.main -t task2 -s enwiki2"
 task2_en3 = "python -m cetc_product.main -t task2 -s enwiki3"
+de_t1_b1 = "python -m cetc_product.main -t domain_enhance -s task1_batch1"
+de_t1_b1_t = "python -m cetc_product.main -t domain_enhance -s task1_batch1 --test -llm doubao_flash"
+de_t1_b2 = "python -m cetc_product.main -t domain_enhance -s task1_batch2"
+de_t1_b2_t = "python -m cetc_product.main -t domain_enhance -s task1_batch2 --test -llm doubao_flash"
+de_t2_b1 = "python -m cetc_product.main -t domain_enhance -s task2_batch1"
+de_t2_b1_t = "python -m cetc_product.main -t domain_enhance -s task2_batch1 --test -llm doubao_flash_auth"
+de_t2_b2 = "python -m cetc_product.main -t domain_enhance -s task2_batch2"
+de_t2_b3 = "python -m cetc_product.main -t domain_enhance -s task2_batch3"
+de_t2_b4 = "python -m cetc_product.main -t domain_enhance -s task2_batch4"
 
 task1_zh_with_log = "pixi run task1_zh & sleep 2 && pixi run ln_log &"
 task1_en_with_log = "pixi run task1_en & sleep 2 && pixi run ln_log &"
 task2_zh_with_log = "pixi run task2_zh & sleep 2 && pixi run ln_log &"
 task2_en_with_log = "pixi run task2_en & sleep 2 && pixi run ln_log &"
 
+task3_s1 = "python -m cetc_product.main -t task3 -s splite1"
+task3_s2 = "python -m cetc_product.main -t task3 -s splite2"
+task3_s3 = "python -m cetc_product.main -t task3 -s splite3"
+task3_t = "python -m cetc_product.main -t task3 -s total --test -llm doubao_flash"
+
+
+task5_s1 = "python -m cetc_product.main -t task5 -s splite1"
+task5_s2 = "python -m cetc_product.main -t task5 -s splite2"
+task5_s3 = "python -m cetc_product.main -t task5 -s splite3"
+task5_t = "python -m cetc_product.main -t task5 -s total --test -llm doubao_flash"
+
 [project]
 authors = [{name = "王逸伟1", email = "1206182848@qq.com"}]
-dependencies = ["json-repair>=0.53.0,<0.54", "alive-progress>=3.3.0,<4", "langchain-community>=0.3.16,<0.4"]
+dependencies = ["json-repair>=0.53.0,<0.54", "alive-progress>=3.3.0,<4", "langchain-community>=0.3.16,<0.4", "opencc-python-reimplemented>=0.1.7,<0.2"]
 name = "CETC_product"
 requires-python = ">= 3.11, <3.14"
 version = "0.1.0"
@@ -40,6 +60,11 @@ platforms = ["linux-64"]
 [tool.pixi.feature.ds.dependencies]
 ipykernel = "*"
 ipython = "*"
+ipywidgets = "*"
+html2text = ">=2025.4.15,<2026"
+polars = ">=1.36.1,<2"
+openpyxl = ">=3.1.5,<4"
+
 
 [tool.pixi.pypi-dependencies]
 cetc_product = { path = ".", editable = true }
@@ -67,3 +92,4 @@ pyyaml = ">=6.0.3,<7"
 rich = ">=14.2.0,<15"
 jsonlines = ">=4.0.0,<5"
 wcmatch = ">=10.1,<11"
+html2text = ">=2025.4.15,<2026"

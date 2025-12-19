@@ -45,6 +45,8 @@ class ConfigLoader:
             )
 
         glob_paths = enhanced_config.get("writed_data_paths")
+        if glob_paths is None:
+            return enhanced_config
         if isinstance(glob_paths, str):
             glob_paths = [glob_paths]
 
@@ -142,7 +144,9 @@ def setup_argparse() -> argparse.Namespace:
 
     parser.add_argument("--outpath", type=str, help="输出路径 (覆盖配置文件)")
 
-    parser.add_argument("--batch-size", type=int, help="批处理大小 (覆盖配置文件)")
+    parser.add_argument(
+        "--batch-size", "-b", type=int, help="批处理大小 (覆盖配置文件)"
+    )
 
     parser.add_argument("--llm-name", "-llm", type=str, help="LLM 名称 (覆盖配置文件)")
 

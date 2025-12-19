@@ -2,6 +2,7 @@ from cetc_product.tools.tiny_tool import safe_get
 
 
 class Funcs:
+
     @staticmethod
     def simple_dict_getid(r: dict) -> str:
         """从处理结果中提取 ID（兼容 tuple 和 list）
@@ -25,6 +26,11 @@ class Funcs:
         page_id = r.get("page_id")
         title = r.get("title", "")
         return f"{page_id}_{title}"
+
+    @staticmethod
+    def getid_for_smart_starlight(r: dict) -> str | None:
+
+        return r.get("uuid")
 
     @staticmethod
     def simple_dict_good(r: dict) -> bool:

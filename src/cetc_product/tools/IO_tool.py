@@ -1,8 +1,7 @@
 from functools import partial
-import math
 from multiprocessing import Pool
 from pathlib import Path
-from typing import Any, Callable, Generator, List, Set, Tuple, TypeVar
+from typing import Any, Callable, Generator, List, Tuple, TypeVar
 from langchain_core.prompts import PromptTemplate
 from pydantic import BaseModel
 from cetc_product.tools.json_parser import MyJSONParser
@@ -17,6 +16,10 @@ from itertools import batched
 from tqdm.auto import tqdm
 from multiprocessing import Pool, cpu_count
 import sys
+from pathlib import Path
+from typing import Any, Dict
+import json
+import pickle
 
 from cetc_product.tools.tiny_tool import get_globpath
 
@@ -195,3 +198,37 @@ def enhance_outpath(
         enhanced_outpath = outpath.parent / f"{outpath.stem}_{now_str}{outpath.suffix}"
 
     return enhanced_outpath
+
+
+def load_mapping(path: Path) -> Dict[str, Any]:
+    """
+    从文件反序列化映射数据，目前支持:
+    - .json  (JSON 文本)
+    - .pickle (pickle 二进制)
+
+    参数:
+        path: pathlib.Path 对象
+
+    返回:
+        dict 实例
+    """
+    if not isinstance(path, Path):
+        raise TypeError(f"path 必须是 pathlib.Path，当前是 {type(path)!r}")
+    suffix = path.suffix.lower()
+    if suffix == ".json":
+        with path.open("r", encoding="utf-8") as f:
+            obj = json.load(f)
+
+    elif suffix == ".pickle":
+        with path.open("rb") as f:
+            obj = pickle.load(f)
+
+    else:
+        raise ValueError(
+            f"不支持的文件后缀: {suffix!r}，目前仅支持 '.json' 与 '.pickle'"
+        )
+
+    if not isinstance(obj, dict):
+        raise TypeError(f"文件 {path} 反序列化的结果不是 dict，而是 {type(obj)!r}")
+
+    return obj

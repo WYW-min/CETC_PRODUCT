@@ -75,10 +75,130 @@ writed_data_paths = [
     ]
 
 
-[domain_enhance.task1]
-inpath = "/Data_two/wyw/data/CETC_PRODUCT/raw/enwiki/task1.jsonl"
-read_batch_size = 2000
+[task3.splite1]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/task3/raw/splited/part_00.jsonl.zst"
+read_batch_size = 600
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_seed_low_auth"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_social.txt"
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = [
+    "/Data_two/wyw/code/CETC_product/data/out/task3/splite1/*",
+    ]
+
+[task3.splite2]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/task3/raw/splited/part_01.jsonl.zst"
+read_batch_size = 1000
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_flash"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_social.txt"
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = [
+    "/Data_two/wyw/code/CETC_product/data/out/task3/splite2/*"
+    ]
+
+[task3.splite3]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/task3/raw/splited/part_02.jsonl.zst"
+read_batch_size = 600
 outpath = "/Data_two/wyw/code/CETC_product/data/out"
 llm_name = "doubao_lite_low_auth"
-prompt_path = "/Data_two/wyw/data/CETC_PRODUCT/enhance/task1.jsonl"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_social.txt"
 checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = [
+    "/Data_two/wyw/code/CETC_product/data/out/task3/splite3/*"
+    ]
+
+
+[task5.splite1]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/task5/raw/splited/part_00.jsonl.zst"
+read_batch_size = 1000
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_lite_low_auth"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_event.txt"
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = ["/Data_two/wyw/code/CETC_product/data/out/task5/total/*"]
+
+[task5.splite2]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/task5/raw/splited/part_01.jsonl.zst"
+read_batch_size = 1000
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_flash_auth"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_event.txt"
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = ["/Data_two/wyw/code/CETC_product/data/out/task5/total/*"]
+
+[task5.splite3]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/task5/raw/splited/part_0{2..3}.jsonl.zst"
+read_batch_size = 1000
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_seed_low"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/NER_for_event.txt"
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = ["/Data_two/wyw/code/CETC_product/data/out/task5/total/*"]
+
+
+[domain_enhance.task1_batch1]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/domain_enhance_input/task1/0.jsonl"
+read_batch_size = 1000
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_lite_low_auth"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/endance_for_domain.txt"
+domain_enhance_map_path = "/Data_two/wyw/code/CETC_product/data/domain_map.json"            # 领域增强的独有参数，领域增强映射
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = "/Data_two/wyw/code/CETC_product/data/out/domain_enhance/task1_batch1/*"
+
+[domain_enhance.task1_batch2]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/domain_enhance_input/task1/1.jsonl"
+read_batch_size = 1000
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_flash"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/endance_for_domain.txt"
+domain_enhance_map_path = "/Data_two/wyw/code/CETC_product/data/domain_map.json"            # 领域增强的独有参数，领域增强映射
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = "/Data_two/wyw/code/CETC_product/data/out/domain_enhance/task1_batch2/*"
+
+
+[domain_enhance.task2_batch1]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/domain_enhance_input/task2/chunk_0.jsonl"
+read_batch_size = 1000
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_lite_low"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/endance_for_domain.txt"
+domain_enhance_map_path = "/Data_two/wyw/code/CETC_product/data/domain_map.json"            # 领域增强的独有参数，领域增强映射
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = "/Data_two/wyw/code/CETC_product/data/out/domain_enhance/task2_batch1/*"
+
+[domain_enhance.task2_batch2]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/domain_enhance_input/task2/chunk_1.jsonl"
+read_batch_size = 1000
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_flash_auth"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/endance_for_domain.txt"
+domain_enhance_map_path = "/Data_two/wyw/code/CETC_product/data/domain_map.json"            # 领域增强的独有参数，领域增强映射
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = "/Data_two/wyw/code/CETC_product/data/out/domain_enhance/task2_batch2/*"
+
+
+[domain_enhance.task2_batch3]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/domain_enhance_input/task2/chunk_2.jsonl"
+read_batch_size = 1000
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_lite_low_auth"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/endance_for_domain.txt"
+domain_enhance_map_path = "/Data_two/wyw/code/CETC_product/data/domain_map.json"            # 领域增强的独有参数，领域增强映射
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = "/Data_two/wyw/code/CETC_product/data/out/domain_enhance/task2_batch3/*"
+
+
+
+[domain_enhance.task2_batch4]
+inpath = "/Data_two/wyw/data/CETC_PRODUCT/domain_enhance_input/task2/chunk_3.jsonl"
+read_batch_size = 1000
+outpath = "/Data_two/wyw/code/CETC_product/data/out"
+llm_name = "doubao_flash"
+prompt_path = "/Data_two/wyw/code/CETC_product/data/prompts/endance_for_domain.txt"
+domain_enhance_map_path = "/Data_two/wyw/code/CETC_product/data/domain_map.json"            # 领域增强的独有参数，领域增强映射
+checkpoint_path = "/Data_two/wyw/code/CETC_product/data/checkpoints"
+writed_data_paths = "/Data_two/wyw/code/CETC_product/data/out/domain_enhance/task2_batch4/*"
+
+

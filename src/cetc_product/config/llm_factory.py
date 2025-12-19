@@ -2,6 +2,8 @@ import os
 from langchain.chat_models import init_chat_model
 from typing import Dict, Optional
 
+TIME_OUT = 60 * 6
+
 
 class LlmFactory:
     """LLM管理器，单例模式，用于管理和获取不同的语言模型"""
@@ -21,7 +23,7 @@ class LlmFactory:
         self._initialized = True
         self._models: Dict = {}
         self._configs = {
-            "doubao_thinking": {
+            "doubao_seed_medium": {
                 "model": "doubao-seed-1-6-251015",
                 "model_provider": "openai",
                 "temperature": 0,
@@ -30,6 +32,29 @@ class LlmFactory:
                 "max_completion_tokens": 64000,
                 "extra_body": {"thinking": {"type": "enabled"}},
                 "reasoning_effort": "medium",
+                "timeout": TIME_OUT,
+            },
+            "doubao_seed_low": {
+                "model": "doubao-seed-1-6-251015",
+                "model_provider": "openai",
+                "temperature": 0,
+                "base_url": os.getenv("DOUBAO_BASEURL"),
+                "api_key": os.getenv("DOUBAO_APIKEY_FS_AGENT"),
+                "max_completion_tokens": 64000,
+                "extra_body": {"thinking": {"type": "enabled"}},
+                "reasoning_effort": "low",
+                "timeout": TIME_OUT,
+            },
+            "doubao_seed_low_auth": {
+                "model": "doubao-seed-1-6-251015",
+                "model_provider": "openai",
+                "temperature": 0,
+                "base_url": os.getenv("DOUBAO_BASEURL"),
+                "api_key": os.getenv("DOUBAO_APIKEY_FS_AUTH"),
+                "max_completion_tokens": 64000,
+                "extra_body": {"thinking": {"type": "enabled"}},
+                "reasoning_effort": "low",
+                "timeout": TIME_OUT,
             },
             "doubao_flash": {
                 "model": "doubao-seed-1-6-flash",
@@ -38,7 +63,7 @@ class LlmFactory:
                 "base_url": os.getenv("DOUBAO_BASEURL"),
                 "api_key": os.getenv("DOUBAO_APIKEY_FS_AGENT"),
                 "max_completion_tokens": 64000,
-                "timeout": 60 * 10,
+                "timeout": TIME_OUT,
             },
             "doubao_lite_medium": {
                 "model": "doubao-seed-1-6-lite-251015",
@@ -48,6 +73,7 @@ class LlmFactory:
                 "api_key": os.getenv("DOUBAO_APIKEY_FS_AGENT"),
                 "max_completion_tokens": 64000,
                 "reasoning_effort": "medium",
+                "timeout": TIME_OUT,
             },
             "doubao_lite_low": {
                 "model": "doubao-seed-1-6-lite-251015",
@@ -57,7 +83,7 @@ class LlmFactory:
                 "api_key": os.getenv("DOUBAO_APIKEY_FS_AGENT"),
                 "max_completion_tokens": 64000,
                 "reasoning_effort": "low",
-                "timeout": 60 * 10,
+                "timeout": TIME_OUT,
             },
             "doubao_flash_auth": {
                 "model": "doubao-seed-1-6-flash",
@@ -66,7 +92,7 @@ class LlmFactory:
                 "base_url": os.getenv("DOUBAO_BASEURL"),
                 "api_key": os.getenv("DOUBAO_APIKEY_FS_AUTH"),
                 "max_completion_tokens": 64000,
-                "timeout": 60 * 10,
+                "timeout": TIME_OUT,
             },
             "doubao_lite_medium_auth": {
                 "model": "doubao-seed-1-6-lite-251015",
@@ -76,6 +102,7 @@ class LlmFactory:
                 "api_key": os.getenv("DOUBAO_APIKEY_FS_AUTH"),
                 "max_completion_tokens": 64000,
                 "reasoning_effort": "medium",
+                "timeout": TIME_OUT,
             },
             "doubao_lite_low_auth": {
                 "model": "doubao-seed-1-6-lite-251015",
@@ -85,7 +112,7 @@ class LlmFactory:
                 "api_key": os.getenv("DOUBAO_APIKEY_FS_AUTH"),
                 "max_completion_tokens": 64000,
                 "reasoning_effort": "low",
-                "timeout": 60 * 10,
+                "timeout": TIME_OUT,
             },
             "gpt_medium": {
                 "model": "gpt-5",
@@ -94,6 +121,7 @@ class LlmFactory:
                 "base_url": os.getenv("BASEURL_FS"),
                 "api_key": os.getenv("OPENAI_APIKEY_FS"),
                 "reasoning_effort": "medium",
+                "timeout": TIME_OUT,
             },
             "gpt_low": {
                 "model": "gpt-5",
@@ -102,6 +130,7 @@ class LlmFactory:
                 "base_url": os.getenv("BASEURL_FS"),
                 "api_key": os.getenv("OPENAI_APIKEY_FS"),
                 "reasoning_effort": "low",
+                "timeout": TIME_OUT,
             },
             "qwen_max": {
                 "model": "qwen3-max-preview",
@@ -111,6 +140,7 @@ class LlmFactory:
                 "api_key": os.getenv("QWEN_APIKEY_FS"),
                 "extra_body": {"enable_thinking": True},
                 "stream": True,
+                "timeout": TIME_OUT,
             },
             "qwen_plus": {
                 "model": "qwen-plus",
@@ -120,6 +150,7 @@ class LlmFactory:
                 "api_key": os.getenv("QWEN_APIKEY_FS"),
                 "extra_body": {"enable_thinking": True},
                 "stream": True,
+                "timeout": TIME_OUT,
             },
             "qwen_flash": {
                 "model": "qwen-flash",
@@ -132,6 +163,7 @@ class LlmFactory:
                 "extra_headers": {
                     "X-DashScope-DataInspection": '{"input":"disable","output":"disable"}'
                 },
+                "timeout": TIME_OUT,
             },
         }
 

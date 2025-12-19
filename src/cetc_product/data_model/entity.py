@@ -2,6 +2,22 @@ from pydantic import BaseModel, Field
 from typing import List
 from enum import Enum
 
+class LanguageEnum(str, Enum):
+    EN = "英文"
+    ZH_HANS = "简体中文"
+    ZH_HANT = "繁体中文"
+    
+
+
+class EnhanceDomainEnum(str, Enum):
+    MILITARY = "军事"
+    FINANCE = "金融"
+    ELECTRIC_POWER = "电力"
+    TELECOMMUNICATION = "电信"
+    TRANSPORTATION = "交通"
+    ENERGY = "能源"
+    
+    
 class EntityType(str, Enum):
     PERSON = "人物"
     ORGANIZATION = "组织"

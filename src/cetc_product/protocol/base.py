@@ -40,14 +40,20 @@ class BaseLangChainTask(ABC):
     def get_serializable_validator(self) -> Callable[[Dict[str, Any]], bool]:
         """
         返回一个可序列化的验证函数
-
-        默认实现返回 bool 检查函数
-        子类应该重写此方法提供具体的验证逻辑
-
-        Returns:
-            验证函数
         """
         return _default_validator
+    
+    def init_extra_params(self, params: Dict[str, Any]) -> None:
+        """
+        初始化任务独特的参数
+        
+        子类可重写此方法来处理自己独特的参数
+        默认实现为空操作
+        
+        Args:
+            params: 完整的任务参数字典
+        """
+        pass
 
     @abstractmethod
     def get_input(self, data: Any) -> None | Any:

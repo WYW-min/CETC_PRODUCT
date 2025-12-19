@@ -2,7 +2,7 @@ import asyncio
 from pathlib import Path
 from typing import Any, Dict, List
 from pydantic import BaseModel
-from cetc_product.tools.llm_factory import llm_manager
+from cetc_product.config.llm_factory import llm_manager
 from langchain_core.prompts import ChatPromptTemplate
 from cetc_product.tools.json_parser import MyJSONParser
 from cetc_product.tools.IO_tool import load_prompt
